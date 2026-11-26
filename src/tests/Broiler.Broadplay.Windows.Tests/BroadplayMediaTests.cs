@@ -324,9 +324,10 @@ public sealed class BroadplayMediaTests
         try
         {
             using var mediaHost = new WindowsMediaHost(() => IntPtr.Zero, () => 1.0);
-            Assert.True(
-                mediaHost.TryOpen(tempPath, BroadplayMediaKind.Audio, out IBroadplayMediaSession? session, out string? error),
-                error);
+            bool opened = mediaHost.TryOpen(tempPath, BroadplayMediaKind.Audio, out IBroadplayMediaSession? session, out string? error);
+            Assert.SkipWhen(!opened && error is not null && error.Contains("unavailable", StringComparison.OrdinalIgnoreCase),
+                error ?? "No audio output device available.");
+            Assert.True(opened, error);
             using (session)
             {
                 Assert.NotNull(session);
@@ -447,9 +448,10 @@ public sealed class BroadplayMediaTests
         try
         {
             using var mediaHost = new WindowsMediaHost(() => IntPtr.Zero, () => 1.0);
-            Assert.True(
-                mediaHost.TryOpen(tempPath, BroadplayMediaKind.Audio, out IBroadplayMediaSession? session, out string? error),
-                error);
+            bool opened = mediaHost.TryOpen(tempPath, BroadplayMediaKind.Audio, out IBroadplayMediaSession? session, out string? error);
+            Assert.SkipWhen(!opened && error is not null && error.Contains("unavailable", StringComparison.OrdinalIgnoreCase),
+                error ?? "No audio output device available.");
+            Assert.True(opened, error);
             using (session)
             {
                 Assert.NotNull(session);

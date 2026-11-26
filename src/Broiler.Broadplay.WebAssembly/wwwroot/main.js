@@ -3,6 +3,8 @@
 
 import { dotnet } from './_framework/dotnet.js';
 
+export const officeInputProtocolVersion = 1;
+
 if (location.origin === 'https://broiler-platform.github.io') {
     const navLink = document.querySelector('.office-nav a');
     if (navLink) navLink.href = '/demo/';
@@ -400,7 +402,7 @@ const { setModuleImports, getAssemblyExports, runMain } = await dotnet
     .create();
 
 setModuleImports('main.js', {
-    plate: {
+    broadplay: {
         webMenu: action => {
             if (action === 'home') {
                 const link = document.querySelector('.office-nav a');

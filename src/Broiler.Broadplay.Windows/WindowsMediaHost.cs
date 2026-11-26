@@ -216,11 +216,16 @@ internal sealed partial class WindowsMediaHost : IBroadplayAsyncMediaHost
             return new(session, null);
         }
 
-        if (analysisStatus == BroadplayAudioAnalysisStatus.Succeeded && analyzedInfo is not null &&
-            WindowsManagedAudioSession.TryOpen(path, analyzedInfo, temporaryPath, out session,
-                out string? managedError, cancellationToken))
+        if (analysisStatus == BroadplayAudioAnalysisStatus.Succeeded && analyzedInfo is not null)
         {
-            return new(session, null);
+            if (WindowsManagedAudioSession.TryOpen(path, analyzedInfo, temporaryPath, out session,
+                out string? managedError, cancellationToken))
+            {
+                return new(session, null);
+            }
+
+            if (managedError is not null && managedError.Contains("unavailable", StringComparison.OrdinalIgnoreCase))
+                return new(null, managedError);
         }
 
         return new(null, error);
