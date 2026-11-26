@@ -11,18 +11,16 @@
          this, and it is inert on Windows. -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
 
-    <!-- The head declares four configurations: Debug/Release build framework-dependent, and
-         the -Windows variants pin a runtime identifier. MSBuild only understands Debug and
-         Release on its own, so the compound names are decomposed here into a base
-         configuration and a target OS. Without this, `-c Release-Windows` would build
-         unoptimized and with neither RELEASE nor WINDOWS defined.
-
-         Only the Windows pair is listed because Windows is the only head this repo has. A
-         Linux or Android head has to add its own pair here at the same time.
+    <!-- The desktop heads declare four configurations each: Debug/Release build
+         framework-dependent, and the -Windows / -Linux variants pin a runtime identifier.
+         MSBuild only understands Debug and Release on its own, so the compound names are
+         decomposed here into a base configuration and a target OS. Without this,
+         `-c Release-Windows` or `-c Release-Linux` would build unoptimized and without
+         RELEASE defined.
 
          Component packages are already compiled and do not import these settings. -->
-    <BroilerBaseConfiguration Condition="'$(Configuration)' == 'Debug-Windows'">Debug</BroilerBaseConfiguration>
-    <BroilerBaseConfiguration Condition="'$(Configuration)' == 'Release-Windows'">Release</BroilerBaseConfiguration>
+    <BroilerBaseConfiguration Condition="'$(Configuration)' == 'Debug-Linux' Or '$(Configuration)' == 'Debug-Windows'">Debug</BroilerBaseConfiguration>
+    <BroilerBaseConfiguration Condition="'$(Configuration)' == 'Release-Linux' Or '$(Configuration)' == 'Release-Windows'">Release</BroilerBaseConfiguration>
     <BroilerTargetOperatingSystem Condition="'$(Configuration)' == 'Debug-Windows' Or '$(Configuration)' == 'Release-Windows'">Windows</BroilerTargetOperatingSystem>
 
     <DebugSymbols Condition="'$(BroilerBaseConfiguration)' == 'Debug'">true</DebugSymbols>

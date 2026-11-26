@@ -105,7 +105,7 @@ jobs:
             Broiler-Platform/Broiler) product=launcher ;;
             Broiler-Platform/Broiler.Writer) product=writer ;;
             Broiler-Platform/Broiler.Cells) product=cell ;;
-            Broiler-Platform/Broiler.Broadplay) product=plate ;;
+            Broiler-Platform/Broiler.Broadplay) product=broadplay ;;
             *) echo 'Unexpected deployment repository'; exit 1 ;;
           esac
           if [ "$OPERATION" = stage ]; then

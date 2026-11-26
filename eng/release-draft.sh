@@ -91,7 +91,7 @@ if [ "$PUBLISH_WEB" = true ]; then
   web_zip="$out/Broiler.Broadplay-$version-browser-wasm.zip"
   web_metadata="$web_source/Broiler.Broadplay-$version-browser-wasm.web-artifact.json"
   web_sums="$web_source/Broiler.Broadplay-$version-browser-wasm.SHA256SUMS.txt"
-  "$python" eng/web/artifact.py verify --archive "$web_source/$(basename "$web_zip")" --metadata "$web_metadata" --require-release --product plate --version "$version" --tag "$tag" --commit "$(git rev-parse HEAD)" --repository "${GITHUB_REPOSITORY:-Broiler-Platform/Broiler.Broadplay}"
+  "$python" eng/web/artifact.py verify --archive "$web_source/$(basename "$web_zip")" --metadata "$web_metadata" --require-release --product broadplay --version "$version" --tag "$tag" --commit "$(git rev-parse HEAD)" --repository "${GITHUB_REPOSITORY:-Broiler-Platform/Broiler.Broadplay}"
   cp "$web_source/$(basename "$web_zip")" "$web_zip"
   web_assets=("$web_zip" "$web_metadata" "$web_sums")
 fi
@@ -122,7 +122,7 @@ pick up its servicing updates. The executables are not code-signed, so Windows S
 may ask before the first start.
 EOF
 
-"$python" eng/write-component-manifest.py --directory "$out" --product plate --version "$version" --repository "${GITHUB_REPOSITORY:-Broiler-Platform/Broiler.Broadplay}" --tag "$tag" --commit "$(git rev-parse HEAD)" --self-contained-mode native-aot
+"$python" eng/write-component-manifest.py --directory "$out" --product broadplay --version "$version" --repository "${GITHUB_REPOSITORY:-Broiler-Platform/Broiler.Broadplay}" --tag "$tag" --commit "$(git rev-parse HEAD)" --self-contained-mode native-aot
 
 draft_args=()
 if [ "$CREATE_DRAFT" = true ]; then draft_args+=(--draft); fi

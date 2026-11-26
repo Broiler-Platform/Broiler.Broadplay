@@ -52,7 +52,7 @@ class ReleasePackagingTests(unittest.TestCase):
                     product=PID, productName=PRODUCT, repository=f'Broiler-Platform/Broiler.{PRODUCT}',
                     version=VERSION, tag=f'{SLUG}-v{VERSION}', commit=commit,
                     sdk='10.0.403', workload='10.0.114/10.0.100', workloadSet='10.0.403',
-                    runtimeMode='trimmed-interpreter', publishTrimmed=True, runAotCompilation=False,
+                    runtimeMode='trimmed-aot', publishTrimmed=True, runAotCompilation=True,
                     dirty=False, verificationOnly=False))
             if missing:
                 for path in artifacts.rglob('*.exe'):
