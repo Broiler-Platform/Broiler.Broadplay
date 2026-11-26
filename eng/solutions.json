@@ -1,0 +1,51 @@
+{
+  "solutions": [
+    {
+      "path": "Broiler.Windows.Broadplay.slnx",
+      "description": "Windows Broadplay viewer and its transitive dependencies.",
+      "roots": [
+        "src/Broiler.Broadplay.Windows/Broiler.Broadplay.Windows.csproj"
+      ],
+      "forbiddenProjectPatterns": [
+        "(?i)(^|[./])[^/]*Linux[^/]*\\.csproj$",
+        "(?i)(^|[./])[^/]*WebAssembly[^/]*\\.csproj$",
+        "(?i)(^|[./])[^/]*Android[^/]*\\.csproj$"
+      ]
+    },
+    {
+      "path": "Broiler.Linux.Broadplay.slnx",
+      "description": "Linux Broadplay viewer and its transitive dependencies.",
+      "roots": [
+        "src/Broiler.Broadplay.Linux/Broiler.Broadplay.Linux.csproj"
+      ],
+      "forbiddenProjectPatterns": [
+        "(?i)(^|[./])[^/]*(Windows|Win32|MediaFoundation)[^/]*\\.csproj$",
+        "(?i)(^|[./])[^/]*WebAssembly[^/]*\\.csproj$",
+        "(?i)(^|[./])[^/]*Android[^/]*\\.csproj$"
+      ]
+    },
+    {
+      "path": "Broiler.WebAssembly.Broadplay.slnx",
+      "description": "WebAssembly Broadplay viewer and its transitive dependencies.",
+      "roots": [
+        "src/Broiler.Broadplay.WebAssembly/Broiler.Broadplay.WebAssembly.csproj"
+      ],
+      "forbiddenProjectPatterns": [
+        "(?i)(^|[./])[^/]*(Windows|Win32|MediaFoundation|Linux)[^/]*\\.csproj$",
+        "(?i)(^|[./])[^/]*Android[^/]*\\.csproj$"
+      ]
+    },
+    {
+      "path": "Broiler.Broadplay.Tests.slnx",
+      "description": "Broadplay test projects; component unit tests stay in component-owned solutions.",
+      "roots": [
+        "src/tests/Broiler.Broadplay.Windows.Tests/Broiler.Broadplay.Windows.Tests.csproj"
+      ],
+      "forbiddenProjectPatterns": [
+        "(?i)(^|[./])[^/]*Linux[^/]*\\.csproj$",
+        "(?i)(^|[./])[^/]*WebAssembly[^/]*\\.csproj$",
+        "(?i)(^|[./])[^/]*Android[^/]*\\.csproj$"
+      ]
+    }
+  ]
+}

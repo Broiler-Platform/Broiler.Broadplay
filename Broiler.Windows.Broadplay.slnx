@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Broiler.Broadplay.Windows/Broiler.Broadplay.Windows.csproj" />
+  <Project Path="src/Broiler.Broadplay/Broiler.Broadplay.Core.csproj" />
+</Solution>

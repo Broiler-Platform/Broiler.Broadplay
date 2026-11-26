@@ -1,0 +1,59 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <BroilerGraphicsVersion>0.1.0-preview.14</BroilerGraphicsVersion>
+    <BroilerGraphicsCoreVersion>0.1.0-preview.14</BroilerGraphicsCoreVersion>
+    <BroilerInputVersion>0.1.0-preview.7</BroilerInputVersion>
+    <BroilerHostingVersion>0.1.0-preview.10</BroilerHostingVersion>
+    <BroilerMediaVersion>0.1.0-preview.16</BroilerMediaVersion>
+    <BroilerUiVersion>0.1.0-preview.24</BroilerUiVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Broiler.Graphics" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Graphics.Windows" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Native.Windows" Version="0.1.0-preview.12" />
+    <PackageVersion Include="Broiler.Graphics.WebAssembly" Version="0.1.0-preview.19" />
+    <PackageVersion Include="Broiler.Hosting.WebAssembly" Version="0.1.0-preview.16" />
+    <PackageVersion Include="Broiler.Graphics.Linux" Version="0.1.0-preview.19" />
+    <PackageVersion Include="Broiler.Graphics.Linux.OpenGL" Version="0.1.0-preview.19" />
+    <PackageVersion Include="Broiler.Hosting.Linux" Version="0.1.0-preview.16" />
+    <PackageVersion Include="Broiler.Input.Keyboard.Linux" Version="0.1.0-preview.9" />
+    <PackageVersion Include="Broiler.Input.Linux" Version="0.1.0-preview.9" />
+    <PackageVersion Include="Broiler.Input.Mouse.Linux" Version="0.1.0-preview.9" />
+    <PackageVersion Include="Broiler.Hosting.Windows" Version="0.1.0-preview.18" />
+    <PackageVersion Include="Broiler.Input.Keyboard" Version="0.1.0-preview.11" />
+    <PackageVersion Include="Broiler.Media" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Media.Audio" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Media.Audio.Managed" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Media.Containers" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Media.Image.Managed" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Media.Video" Version="0.1.0-preview.20" />
+    <PackageVersion Include="Broiler.Media.Video.Windows" Version="0.1.0-preview.19" />
+    <PackageVersion Include="Broiler.Media.Video.MediaFoundation" Version="0.1.0-preview.19" />
+    <PackageVersion Include="Broiler.UI" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.AboutDialog" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.AboutDialog.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Button.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Dialog.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Dialog.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Edit.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.FileDialog.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Label.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Label.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.ListView.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.MediaStage.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.MediaTransport.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Menu.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Panel.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.TileGrid.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Toolbar.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Tooltip.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Window.Stage" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Broiler.UI.Window.Standard" Version="0.1.0-preview.36" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
+    <PackageVersion Include="xunit.v3" Version="4.0.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
+    <PackageVersion Include="Broiler.UI.Slider.Standard" Version="0.1.0-preview.36" />
+  </ItemGroup>
+</Project>

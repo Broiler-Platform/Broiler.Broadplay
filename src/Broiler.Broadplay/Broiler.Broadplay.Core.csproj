@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Broiler.Broadplay</RootNamespace>
+    <AssemblyName>Broiler.Broadplay.Core</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\icon-256.png" LogicalName="Broiler.Broadplay.About.png" />
+    <EmbeddedResource Include="..\..\icon-128.png" LogicalName="Broiler.Broadplay.icon-128.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Broiler.Broadplay.Windows" />
+    <InternalsVisibleTo Include="Broiler.Broadplay.Linux" />
+    <InternalsVisibleTo Include="Broiler.Broadplay.WebAssembly" />
+    <InternalsVisibleTo Include="Broiler.Broadplay.Windows.Tests" />
+    <InternalsVisibleTo Include="Broiler.Office" />
+    <InternalsVisibleTo Include="Broiler.Launcher.Windows" />
+    <InternalsVisibleTo Include="Broiler.Launcher.Linux" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Broiler.Graphics" />
+    <PackageReference Include="Broiler.Input.Keyboard" />
+    <PackageReference Include="Broiler.Media" />
+    <PackageReference Include="Broiler.Media.Audio" />
+    <PackageReference Include="Broiler.Media.Audio.Managed" />
+    <PackageReference Include="Broiler.Media.Containers" />
+    <PackageReference Include="Broiler.Media.Video" />
+    <PackageReference Include="Broiler.UI" />
+    <PackageReference Include="Broiler.UI.AboutDialog" />
+    <PackageReference Include="Broiler.UI.AboutDialog.Standard" />
+    <PackageReference Include="Broiler.UI.Button.Stage" />
+    <PackageReference Include="Broiler.UI.Dialog.Stage" />
+    <PackageReference Include="Broiler.UI.Dialog.Standard" />
+    <PackageReference Include="Broiler.UI.Edit.Stage" />
+    <PackageReference Include="Broiler.UI.FileDialog.Standard" />
+    <PackageReference Include="Broiler.UI.Label.Stage" />
+    <PackageReference Include="Broiler.UI.Label.Standard" />
+    <PackageReference Include="Broiler.UI.ListView.Stage" />
+    <PackageReference Include="Broiler.UI.MediaStage.Stage" />
+    <PackageReference Include="Broiler.UI.MediaTransport.Stage" />
+    <PackageReference Include="Broiler.UI.Panel.Stage" />
+    <PackageReference Include="Broiler.UI.Slider.Standard" />
+    <PackageReference Include="Broiler.UI.Menu.Standard" />
+    <PackageReference Include="Broiler.UI.Stage" />
+    <PackageReference Include="Broiler.UI.TileGrid.Stage" />
+    <PackageReference Include="Broiler.UI.Toolbar.Standard" />
+    <PackageReference Include="Broiler.UI.Tooltip.Standard" />
+    <PackageReference Include="Broiler.UI.Window.Stage" />
+    <PackageReference Include="Broiler.UI.Window.Standard" />
+  </ItemGroup>
+
+</Project>

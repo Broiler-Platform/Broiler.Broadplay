@@ -1,0 +1,39 @@
+<Project>
+
+  <PropertyGroup Condition="$(MSBuildProjectName.StartsWith('Broiler.Broadplay'))">
+    <BroilerBroadplayVersion Condition="'$(BroilerBroadplayVersion)' == ''">0.1.0-preview.1</BroilerBroadplayVersion>
+    <Version>$(BroilerBroadplayVersion)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Broiler.Graphics.Direct2D and the Windows head target net10.0-windows. Restoring
+         them from a non-Windows host (a `dotnet restore` that walks the whole graph) needs
+         this, and it is inert on Windows. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+
+    <!-- The head declares four configurations: Debug/Release build framework-dependent, and
+         the -Windows variants pin a runtime identifier. MSBuild only understands Debug and
+         Release on its own, so the compound names are decomposed here into a base
+         configuration and a target OS. Without this, `-c Release-Windows` would build
+         unoptimized and with neither RELEASE nor WINDOWS defined.
+
+         Only the Windows pair is listed because Windows is the only head this repo has. A
+         Linux or Android head has to add its own pair here at the same time.
+
+         Component packages are already compiled and do not import these settings. -->
+    <BroilerBaseConfiguration Condition="'$(Configuration)' == 'Debug-Windows'">Debug</BroilerBaseConfiguration>
+    <BroilerBaseConfiguration Condition="'$(Configuration)' == 'Release-Windows'">Release</BroilerBaseConfiguration>
+    <BroilerTargetOperatingSystem Condition="'$(Configuration)' == 'Debug-Windows' Or '$(Configuration)' == 'Release-Windows'">Windows</BroilerTargetOperatingSystem>
+
+    <DebugSymbols Condition="'$(BroilerBaseConfiguration)' == 'Debug'">true</DebugSymbols>
+    <DebugType Condition="'$(BroilerBaseConfiguration)' == 'Debug'">portable</DebugType>
+    <Optimize Condition="'$(BroilerBaseConfiguration)' == 'Debug'">false</Optimize>
+    <DefineConstants Condition="'$(BroilerBaseConfiguration)' == 'Debug'">$(DefineConstants);DEBUG</DefineConstants>
+    <DebugType Condition="'$(BroilerBaseConfiguration)' == 'Release'">portable</DebugType>
+    <Optimize Condition="'$(BroilerBaseConfiguration)' == 'Release'">true</Optimize>
+    <DefineConstants Condition="'$(BroilerBaseConfiguration)' == 'Release'">$(DefineConstants);RELEASE</DefineConstants>
+
+    <DefineConstants Condition="'$(BroilerTargetOperatingSystem)' == 'Windows'">$(DefineConstants);WINDOWS</DefineConstants>
+  </PropertyGroup>
+
+</Project>

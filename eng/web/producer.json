@@ -1,0 +1,7 @@
+{
+  "product": "broadplay",
+  "productName": "Broadplay",
+  "repository": "Broiler-Platform/Broiler.Broadplay",
+  "project": "src/Broiler.Broadplay.WebAssembly/Broiler.Broadplay.WebAssembly.csproj",
+  "versionProperty": "BroilerBroadplayVersion"
+}

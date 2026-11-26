@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Broiler.Broadplay</RootNamespace>
+    <AssemblyName>Broiler.Broadplay.Windows</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>..\..\icon-96.ico</ApplicationIcon>
+    <PublishAot>true</PublishAot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Configurations>Debug;Release;Debug-Windows;Release-Windows</Configurations>
+    <RuntimeIdentifier Condition="'$(Configuration)' == 'Debug-Windows' Or '$(Configuration)' == 'Release-Windows'">win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Broiler.Broadplay\Broiler.Broadplay.Core.csproj" />
+    <!-- The PDF codec is referenced by the heads that register it, never by the
+         shared viewer core: a head must not acquire it transitively (PDF roadmap 10.1). -->
+    <!-- The image adapters. Referencing them links the decoders; composing one is a
+         separate decision this head makes in Program.cs, and the difference is the
+         point of the extension point. -->
+  </ItemGroup>
+
+  <!-- So the composition guard asserts this head's own service graph rather than
+       a copy of it kept in the tests. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Broiler.Broadplay.Windows.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Broiler.Graphics" />
+    <PackageReference Include="Broiler.Graphics.Windows" />
+    <PackageReference Include="Broiler.Hosting.Windows" />
+    <PackageReference Include="Broiler.Native.Windows" />
+    <!-- The Win32 clipboard and window sizing, shared with the other desktop applications. -->
+    <PackageReference Include="Broiler.Media.Image.Managed" />
+  </ItemGroup>
+
+</Project>

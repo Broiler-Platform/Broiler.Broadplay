@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true'
+
+jobs:
+  solutions:
+    name: Solution manifest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Verify the generated solutions
+        shell: pwsh
+        run: ./scripts/update-solutions.ps1 -Verify
+
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows head
+            os: windows-latest
+            solution: Broiler.Windows.Broadplay.slnx
+          - name: Linux head
+            os: ubuntu-24.04
+            solution: Broiler.Linux.Broadplay.slnx
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up
+        uses: ./.github/actions/setup-broiler
+
+      - name: Build
+        run: dotnet build ${{ matrix.solution }} -c Release
+
+  test:
+    name: Tests
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up
+        uses: ./.github/actions/setup-broiler
+
+      - name: Test
+        run: dotnet test Broiler.Broadplay.Tests.slnx -c Release
+
+  webassembly:
+    name: WebAssembly head
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up
+        uses: ./.github/actions/setup-broiler
+
+      - name: Install the wasm-tools workload
+        run: dotnet workload install wasm-tools
+
+      - name: Build
+        run: dotnet build Broiler.WebAssembly.Broadplay.slnx -c Release
+
+      - name: Publish
+        run: dotnet publish src/Broiler.Broadplay.WebAssembly/Broiler.Broadplay.WebAssembly.csproj -c Release
+
+  publish:
+    name: Publish ${{ matrix.rid }} (NativeAOT)
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+            project: src/Broiler.Broadplay.Windows/Broiler.Broadplay.Windows.csproj
+            configuration: Release-Windows
+          - os: ubuntu-24.04
+            rid: linux-x64
+            project: src/Broiler.Broadplay.Linux/Broiler.Broadplay.Linux.csproj
+            configuration: Release-Linux
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up
+        uses: ./.github/actions/setup-broiler
+
+      - name: Install the NativeAOT prerequisites
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+
+      - name: Publish
+        run: dotnet publish ${{ matrix.project }} -c ${{ matrix.configuration }} -p:PublishAot=true

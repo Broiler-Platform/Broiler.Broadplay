@@ -1,0 +1,103 @@
+// SPDX-FileCopyrightText: 2026 Broiler Platform contributors
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
+using System.Linq;
+using System.Reflection;
+using Broiler.Graphics.Geometry;
+using Broiler.Graphics.Imaging;
+using Broiler.Graphics.Rendering;
+using Broiler.Graphics.RenderList;
+using Broiler.Input;
+using Broiler.Input.Keyboard;
+using Broiler.Media;
+using Broiler.Media.Image.Managed;
+using Broiler.UI;
+using Broiler.UI.AboutDialog.Standard;
+using Broiler.UI.Dialog;
+
+namespace Broiler.Broadplay.Windows.Tests;
+
+public sealed class BroadplayAboutTests
+{
+    static BroadplayAboutTests()
+    {
+        try { BImageCodecs.Use(new MediaCodecCatalog(ManagedImageCodecs.CreateCodecs())); }
+        catch (InvalidOperationException) { }
+    }
+
+    [Theory]
+    [InlineData(1200, 800, "Enter", UiDialogResultKind.Accepted)]
+    [InlineData(1200, 800, "Escape", UiDialogResultKind.Cancelled)]
+    [InlineData(380, 300, "Enter", UiDialogResultKind.Accepted)]
+    [InlineData(380, 300, "Escape", UiDialogResultKind.Cancelled)]
+    public void About_Menu_Shows_Plate_Metadata_And_Restores_Viewer_Focus(
+        double width, double height, string key, UiDialogResultKind result)
+    {
+        using var host = new BroadplayUiHost(() => new BSize(width, height), () => 1, () => { }, _ => { });
+        using var app = new BroadplayApp(host, () => { });
+        app.RenderFrame();
+
+        var viewer = app.Session.FocusedElement;
+        Assert.NotNull(viewer);
+        app.Session.SetFocus(app.Menu);
+        Assert.True(app.Menu.CommandDispatcher!.TryExecute("help.about"));
+        using var dialog = Assert.IsType<StandardAboutDialog>(app.Session.FocusedElement);
+        app.RenderFrame();
+
+        string version = typeof(BroadplayApp).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
+            .InformationalVersion.Split('+')[0];
+        Assert.Equal("Broiler Broadplay", dialog.ProductName);
+        Assert.Equal("About Broiler Broadplay", dialog.Title);
+        Assert.Equal(version, dialog.ProductVersion);
+        Assert.Equal(version, dialog.ComponentVersions["Broiler.Broadplay.Core"]);
+        Assert.Contains("Broiler.UI.AboutDialog.Standard", dialog.ComponentVersions.Keys);
+        Assert.True(dialog.IsModal);
+        Assert.InRange(dialog.Bounds.Left, 0, width);
+        Assert.InRange(dialog.Bounds.Right, 0, width);
+        Assert.InRange(dialog.Bounds.Top, 0, height);
+        Assert.InRange(dialog.Bounds.Bottom, 0, height);
+        Assert.True(dialog.OkButton.Bounds.Bottom <= dialog.Bounds.Bottom);
+
+        app.Session.SetFocus(dialog.ComponentList);
+        var header = new InputEventHeader(InputDeviceId.FromOpaqueValue("plate-about-test"),
+            new InputTimestamp(1, 1000, "test"), 1);
+        app.Dispatch(UiInputEvent.FromKeyboardKey(new KeyboardKeyEvent(header,
+            KeyboardKey.FromName(key), KeyboardKeyTransition.Down, KeyboardModifierState.None,
+            NativeKeyCode: 0, ScanCode: 0, RepeatCount: 1, IsExtended: false, WasDown: false)));
+
+        Assert.False(dialog.IsPresented);
+        Assert.Equal(result, dialog.CompletedResult.Kind);
+        Assert.Same(viewer, app.Session.FocusedElement);
+
+        Assert.True(app.Menu.CommandDispatcher.TryExecute("help.about"));
+        using var reopened = Assert.IsType<StandardAboutDialog>(app.Session.FocusedElement);
+        Assert.NotSame(dialog, reopened);
+        Assert.True(reopened.Cancel());
+    }
+
+    [Fact]
+    public void About_Dialog_Displays_Artwork_And_Navigates_Url()
+    {
+        using var renderer = new BImageRenderer();
+        using var host = new BroadplayUiHost(() => new BSize(1200, 800), () => 1, () => { }, _ => { }, getRenderer: () => renderer);
+        Uri? openedUrl = null;
+        using var app = new BroadplayApp(host, () => { }, openUrl: url => openedUrl = url);
+        app.RenderFrame();
+
+        Assert.True(app.Menu.CommandDispatcher!.TryExecute("help.about"));
+        using var dialog = Assert.IsType<StandardAboutDialog>(app.Session.FocusedElement);
+        app.RenderFrame();
+
+        Assert.NotNull(dialog.Picture);
+        Assert.True(dialog.Picture.HasIntrinsicSize);
+        Assert.Equal("https://broiler-platform.github.io/", dialog.ProductUrl!.AbsoluteUri);
+
+        BRenderCommand.DrawImage picture = Assert.Single(app.RenderFrame().Commands.OfType<BRenderCommand.DrawImage>());
+        Assert.Equal((double)dialog.Picture.PixelWidth!.Value / dialog.Picture.PixelHeight!.Value,
+            picture.Destination.Width / picture.Destination.Height, 6);
+
+        dialog.WebsiteButton.Click();
+        Assert.Equal(dialog.ProductUrl, openedUrl);
+    }
+}
